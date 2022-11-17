@@ -13,7 +13,7 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v3
-    
+
     - name: 🛠️ Create spell checker config file
       run: |
         touch _typos.toml
@@ -34,8 +34,8 @@ runs:
 
     - name: 🚫 Preform typo scan
       run: |
-        ./typos >> typos-report/typos.txt || true
-        ./typos >> typos-report/typos.diff --diff || true
+        ${{ github.workspace }}/typos >> typos-report/typos.txt || true
+        ${{ github.workspace }}/typos >> typos-report/typos.diff --diff || true
       shell: bash
 
     - uses: actions/upload-artifact@v3
