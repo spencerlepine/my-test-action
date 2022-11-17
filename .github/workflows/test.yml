@@ -10,4 +10,4 @@ jobs:
       - name: Run this action to test it
         uses: ./
         with:
-          scan-exclude-match: '["typos/**", "public/**"]'
+          scan-exclude-match: '[''typos/**'', ''public/**'']'
