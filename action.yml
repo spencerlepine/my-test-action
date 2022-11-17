@@ -22,16 +22,16 @@ runs:
         profile: minimal
     
     - uses: Swatinem/rust-cache@v2
-  with:
-    prefix-key: ""
-    shared-key: ""
-    key: ""
-    env-vars: ""
-    workspaces: ""
-    cache-directories: ""
-    cache-targets: ""
-    cache-on-failure: ""
-    save-if: ""
+      with:
+        prefix-key: ""
+        shared-key: ""
+        key: ""
+        env-vars: ""
+        workspaces: ""
+        cache-directories: ""
+        cache-targets: ""
+        cache-on-failure: ""
+        save-if: ""
 
     - name: 🛠️ Configure rust cargo (package manager)
       uses: actions-rs/cargo@v1
