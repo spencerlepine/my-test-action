@@ -1,26 +1,29 @@
-# Hello world docker action
+# Typo scanner github action
 
-This actoin prints "Hello World" or "Hello" + the name of a person to greet to the log.
-
-baht
-
-
-Acessible
+Scans the given repo for typos
 
 ## Inputs
 
-## `who-to-greet`
+## `scan-exclude-match`
 
-**Required** The name of the person to greet. Default `"World"`.
+**Optional** List of file paths to ignore scanning for typos. Default `'[''typos/**'', ''public/**'']'`.
 
-## Outputs
-
-## `time`
-
-The time we greeted you.
 
 ## Example usage
 
-uses: actions/hello-world-docker-action@v2
-with:
-  who-to-greet: 'Mona the Octocat'
+```yml
+name: Test Action
+on: push
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run this action to test it
+        uses: ./
+        with:
+          # Must use '' to properly escape the quotes
+          scan-exclude-match: '[''typos/**'', ''public/**'']'
+```

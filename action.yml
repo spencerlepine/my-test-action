@@ -4,7 +4,7 @@ inputs:
   scan-exclude-match:
     description: 'Array on file paths to avoid typo scan'
     required: true
-    default: '["typos/**", "public/**"]'
+    default: '[''typos/**'', ''public/**'']'
 outputs:
   random-number:
     description: "Random number"
