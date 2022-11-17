@@ -9,10 +9,10 @@ jobs:
       - uses: actions/checkout@v3
 
       ## Close open PRs from deweya:feat/sync before continuing
-      # - name: Close existing PRs
+      - name: Close existing PRs
       #   run: test/close-prs.sh deweya0/helm-charts deweya:feat/sync ${{ secrets.PAT }}
-      run: chmod +x entrypoint.sh
-      
+        run: chmod +x entrypoint.sh
+
       ## Test sample PR with no change to charts
       - name: Run this action to test it
         uses: ./
