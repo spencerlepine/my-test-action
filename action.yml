@@ -21,23 +21,26 @@ runs:
       shell: bash
     - run: goodbye.sh
       shell: bash
+      
     - name:  🛠️ Configure rust toolchain
       uses: actions-rs/toolchain@v1
       with:
         toolchain: stable
 
     - name: 🛠️ Configure rust cargo (package manager)
-      if: always()
       uses: actions-rs/cargo@v1
   
     - name: 📦 Install spell-checker dependency
       run: cargo install typos-cli
+      shell: bash
       
     - name: 🛠️ Create spell checker config file
       run: |
         touch _typos.toml
         echo "[files]" >> _typos.toml
         echo "extend-exclude = ['typos/**', 'public/**']" >> _typos.toml
+      shell: bash
+
     - name: 🚫 Preform typo scan
       id: typo-scan
       run: |
