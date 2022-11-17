@@ -50,6 +50,9 @@ runs:
     - name: 🚫 Preform typo scan
       id: typo-scan
       run: |
+        mkdir typos
+        touch typos/typos.txt
+        touch typos/README.md
         echo '## Detected Typos' >> typos/typos.txt
         ${{ github.workspace }}/../../../.cargo/bin/typos >> typos/typos.txt || true
         echo '## Detected Typos Diff' >> typos/README.md
