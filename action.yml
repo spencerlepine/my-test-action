@@ -20,7 +20,12 @@ runs:
       shell: bash
     
     - name: 📂 Typo scan output folder
-      run: mkdir typos-report & touch typos-report/typos.txt & touch typos-report/typos.diff
+      run: |
+        mkdir typos-report
+        cd typos-report
+        touch typos.txt
+        touch typos.diff
+        cd ..
       shell: bash
 
     - name: 🚫 Preform typo scan
