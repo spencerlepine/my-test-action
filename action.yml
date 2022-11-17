@@ -1,16 +1,48 @@
-# action.yml
 name: 'Hello World'
-description: 'Greet someone and record the time'
+description: 'Greet someone'
 inputs:
   who-to-greet:  # id of input
     description: 'Who to greet'
     required: true
     default: 'World'
 outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  random-number:
+    description: "Random number"
+    value: ${{ steps.random-number-generator.outputs.random-number }}
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.who-to-greet }}
+  using: "composite"
+  steps:
+    - run: echo Hello ${{ inputs.who-to-greet }}.
+      shell: bash
+    - id: random-number-generator
+      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+      shell: bash
+    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+      shell: bash
+    - run: goodbye.sh
+      shell: bash
+    - name:  🛠️ Configure rust toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+
+    - name: 🛠️ Configure rust cargo (package manager)
+      if: always()
+      uses: actions-rs/cargo@v1
+  
+    - name: 📦 Install spell-checker dependency
+      run: cargo install typos-cli
+      
+    - name: 🛠️ Create spell checker config file
+      run: |
+        touch _typos.toml
+        echo "[files]" >> _typos.toml
+        echo "extend-exclude = ['typos/**', 'public/**']" >> _typos.toml
+    - name: 🚫 Preform typo scan
+      id: typo-scan
+      run: |
+        echo '## Detected Typos' >> typos/typos.txt
+        ${{ github.workspace }}/../../../.cargo/bin/typos >> typos/typos.txt || true
+        echo '## Detected Typos Diff' >> typos/README.md
+        echo '```diff' >> typos/README.md
+        ${{ github.workspace }}/../../../.cargo/bin/typos --diff >> typos/README.md || true

@@ -16,7 +16,8 @@ jobs:
       ## Test sample PR with no change to charts
       - name: Run this action to test it
         uses: ./
-        # with:
+        with:
+        who-to-greet: 'YEET'
         #   auth_token: ${{ secrets.PAT }}
         #   fork_name: deweya/helm-charts
         #   upstream_owner: deweya0
