@@ -12,50 +12,24 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
-      shell: bash
-
-    - name:  🛠️ Configure rust toolchain
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        profile: minimal
-    
-    - uses: Swatinem/rust-cache@v2
-      with:
-        prefix-key: ""
-        shared-key: ""
-        key: ""
-        env-vars: ""
-        workspaces: ""
-        cache-directories: ""
-        cache-targets: ""
-        cache-on-failure: ""
-        save-if: ""
-
-    - name: 🛠️ Configure rust cargo (package manager)
-      uses: actions-rs/cargo@v1
-  
-    - name: 📦 Install spell-checker dependency
-      run: cargo install typos-cli
-      shell: bash
-      
     - name: 🛠️ Create spell checker config file
       run: |
         touch _typos.toml
         echo "[files]" >> _typos.toml
         echo "extend-exclude = ['typos/**', 'public/**']" >> _typos.toml
       shell: bash
+    
+    - name: 📂 Typo scan output folder
+      run: mkdir typos-report & touch typos-report/typos.txt & touch typos-report/typos.diff
+      shell: bash
 
     - name: 🚫 Preform typo scan
-      id: typo-scan
       run: |
-        mkdir typos
-        touch typos/typos.txt
-        touch typos/README.md
-        echo '## Detected Typos' >> typos/typos.txt
-        ${{ github.workspace }}/../../../.cargo/bin/typos >> typos/typos.txt || true
-        echo '## Detected Typos Diff' >> typos/README.md
-        echo '```diff' >> typos/README.md
-        ${{ github.workspace }}/../../../.cargo/bin/typos --diff >> typos/README.md || true
+        ./typos >> typos-report/typos.txt || true
+        ./typos >> typos-report/typos.diff --diff || true
       shell: bash
+    
+    - uses: actions/upload-artifact@v3
+      with:
+        name: typos-report
+        path: typos-report
