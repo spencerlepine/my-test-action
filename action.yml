@@ -46,3 +46,4 @@ runs:
         echo '## Detected Typos Diff' >> typos/README.md
         echo '```diff' >> typos/README.md
         ${{ github.workspace }}/../../../.cargo/bin/typos --diff >> typos/README.md || true
+      shell: bash
