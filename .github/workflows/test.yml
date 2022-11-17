@@ -11,7 +11,8 @@ jobs:
       ## Close open PRs from deweya:feat/sync before continuing
       # - name: Close existing PRs
       #   run: test/close-prs.sh deweya0/helm-charts deweya:feat/sync ${{ secrets.PAT }}
-
+      run: chmod +x entrypoint.sh
+      
       ## Test sample PR with no change to charts
       - name: Run this action to test it
         uses: ./
