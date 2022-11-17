@@ -13,7 +13,7 @@ jobs:
       #   run: test/close-prs.sh deweya0/helm-charts deweya:feat/sync ${{ secrets.PAT }}
 
       ## Test sample PR with no change to charts
-      - name: No change to charts
+      - name: Run this action to test it
         uses: ./
         # with:
         #   auth_token: ${{ secrets.PAT }}
