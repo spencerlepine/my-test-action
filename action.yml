@@ -1,10 +1,10 @@
 name: 'Hello World'
 description: 'Greet someone'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  scan-exclude-match:
+    description: 'Array on file paths to avoid typo scan'
     required: true
-    default: 'World'
+    default: '["typos/**", "public/**"]'
 outputs:
   random-number:
     description: "Random number"
@@ -16,7 +16,9 @@ runs:
       run: |
         touch _typos.toml
         echo "[files]" >> _typos.toml
-        echo "extend-exclude = ['typos/**', 'public/**']" >> _typos.toml
+        echo "extend-exclude = ${{ inputs.scan-exclude-match }}" >> _typos.toml
+        # echo "extend-exclude = ['typos/**', 'public/**']" >> _typos.toml
+        cat _typos.toml
       shell: bash
     
     - name: 📂 Typo scan output folder
@@ -33,7 +35,7 @@ runs:
         ./typos >> typos-report/typos.txt || true
         ./typos >> typos-report/typos.diff --diff || true
       shell: bash
-    
+
     - uses: actions/upload-artifact@v3
       with:
         name: typos-report

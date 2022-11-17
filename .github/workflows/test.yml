@@ -5,19 +5,9 @@ jobs:
   test-action:
     runs-on: ubuntu-latest
     steps:
-      ## Check out this action so we can test it
       - uses: actions/checkout@v3
 
-      ## Test sample PR with no change to charts
       - name: Run this action to test it
         uses: ./
         with:
-          who-to-greet: 'YEET'
-        #   auth_token: ${{ secrets.PAT }}
-        #   fork_name: deweya/helm-charts
-        #   upstream_owner: deweya0
-        #   committer_email: deweya964@gmail.com
-        #   local_charts_dir: test/00-test-no-change
-
-      # - name: Verify no change
-      #   run: test/00-verify-no-change.sh master deweya0/helm-charts deweya:feat/sync ${{ secrets.PAT }}
+          scan-exclude-match: '["typos/**", "public/**"]'
